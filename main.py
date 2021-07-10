@@ -4,31 +4,64 @@ from nltk import text
 from textblob import TextBlob
 from newspaper import Article
 
-# punkt is a trained model and a tokenizer
-# punkt is a tokenizer that divides a text into a list of sentences
-nltk.download('punkt')
+def summarize():
+    # punkt is a trained model and a tokenizer
+    # # punkt is a tokenizer that divides a text into a list of sentences
+    nltk.download('punkt')
+    # in order to get the summarization of article i'm passing the url
+    # url = "https://edition.cnn.com/2021/04/09/tech/elon-musk-neuralink-pong-scli-intl/index.html"
 
-# in order to get the summarization of article i'm passing the url
-url = "https://edition.cnn.com/2021/04/09/tech/elon-musk-neuralink-pong-scli-intl/index.html"
+    # we need to get article from text box
+    url = utext.get('1.0', "end").strip()
+    article = Article(url)
+    # downloading the article
+    article.download()
+    # parsing the article
+    article.parse()
+    # calling the nlp method
+    article.nlp()
 
-# directing article to url
-article = Article(url)
-# downloading the article
-article.download()
-# parsing the article
-article.parse()
-# calling the nlp method
-article.nlp()
+    # print(f'Title of the article: {article.title}')
+    # print(f'Authors of the article: {article.authors}')
+    # print(f'Publication Date: {article.publish_date}')
+    # print(f'Article Summary: {article.summary}')
 
-print(f'Title of the article: {article.title}')
-print(f'Authors of the article: {article.authors}')
-print(f'Publication Date: {article.publish_date}')
-print(f'Article Summary: {article.summary}')
+    # adding content to individual text boxes instead of printing like above
+    title.config(state= 'normal')
+    author.config(state= 'normal')
+    publication.config(state= 'normal')
+    summary.config(state= 'normal')
+    sentiment.config(state= 'normal')
 
-# turning the article into textblob for sentiment analysis
-analysis = TextBlob(article.text)
-print(analysis.polarity)
-print(f'Sentiment: {"positive" if analysis.polarity > 0 else "negative" if analysis.property < 0  else "neutral"}')
+    # changing the content
+    # first deleting everything thats in there
+    title.delete('1.0', 'end')
+    title.insert('1.0', article.title)
+
+    author.delete('1.0', 'end')
+    author.insert('1.0', article.authors)
+
+    publication.delete('1.0', 'end')
+    publication.insert('1.0', article.publish_date)
+
+    summary.delete('1.0', 'end')
+    summary.insert('1.0', article.summary)
+
+    title.delete('1.0', 'end')
+    title.insert('1.0', article.title)
+
+    # performing sentiment analysis
+    # turning the article into textblob for sentiment analysis
+    analysis = TextBlob(article.text)
+    sentiment.delete('1.0', 'end')
+    sentiment.insert('1.0', f'Polarity: {analysis.polarity}, Sentiment: {"positive" if analysis.polarity > 0 else "negative" if analysis.property < 0  else "neutral"}')
+
+    # when after done with them, we should disable them again. so that user cannot change
+    title.config(state= 'disabled')
+    author.config(state= 'disabled')
+    publication.config(state= 'disabled')
+    summary.config(state= 'disabled')
+    sentiment.config(state= 'disabled')
 
 # creating gui part
 root = tk.Tk()
@@ -72,15 +105,19 @@ summary.pack()
 selabel = tk.Label(root, text = 'Sentiment Analysis')
 selabel.pack()
 # adding box for Sentiment analysis
-sentiment = tk.Text(root, height= 1, width= 240)
+sentiment = tk.Text(root, height= 1, width= 140)
 sentiment.config(state='disabled', background= '#dddddd')
-selabel.pack()
+sentiment.pack()
 
 # URL title
-ulabel = tk.Label(root, title = 'URL')
+ulabel = tk.Label(root, text = 'URL')
 ulabel.pack()
 # adding box for URL
-url = tk.Text(root, height= 1, width= 140)
-url.pack()
+utext = tk.Text(root, height= 1, width= 140)
+utext.pack()
+
+# adding button
+btn = tk.Button(root, text="Summarize", command = summarize)
+btn.pack()
 
 root.mainloop()
