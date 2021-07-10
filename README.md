@@ -2,7 +2,7 @@
 News Articles Summarizer using NLP
 
 # Modules Used
-tkinter
-textblob
-nltk
-newspaper
+- tkinter
+- textblob
+- nltk
+- newspaper
