@@ -6,7 +6,7 @@ from newspaper import Article
 
 def summarize():
     # punkt is a trained model and a tokenizer
-    # # punkt is a tokenizer that divides a text into a list of sentences
+    # punkt is a tokenizer that divides a text into a list of sentences
     nltk.download('punkt')
     # in order to get the summarization of article i'm passing the url
     # url = "https://edition.cnn.com/2021/04/09/tech/elon-musk-neuralink-pong-scli-intl/index.html"
@@ -120,4 +120,4 @@ utext.pack()
 btn = tk.Button(root, text="Summarize", command = summarize)
 btn.pack()
 
-root.mainloop()
+root.mainloop() # mainloop method is used when we want to execute when we want to run our app
